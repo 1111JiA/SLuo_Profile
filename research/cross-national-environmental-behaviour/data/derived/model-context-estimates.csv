@@ -1,0 +1,5 @@
+outcome,term,estimate,std_error,significant
+Private behaviour,Gender inequality (GII),-1.669,0.519,TRUE
+Private behaviour,Gender × GII,-0.023,0.069,FALSE
+Public behaviour,Gender inequality (GII),-0.208,0.125,FALSE
+Public behaviour,Gender × GII,-0.075,0.025,TRUE

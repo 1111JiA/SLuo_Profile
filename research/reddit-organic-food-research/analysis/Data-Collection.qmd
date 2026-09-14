@@ -1,0 +1,129 @@
+---
+title: "Data Collection"
+name: "Shengjia Luo"
+format: pdf
+---
+
+```{r setup, include=FALSE}
+library(PSAWR)
+library(dplyr)
+library(tidyr)
+library(writexl)
+library(tidyverse)
+```
+
+# Step 1:
+
+To generate the keywords for data collection.
+
+```{r step 1}
+keywords <- c("Bio",
+              "Bio Lebensmittel",
+              "bio Lebensmittel",
+              "Bio essen",
+              "Bio Fleisch", 
+              "Bio Eier", 
+              "Bio Gemüse", 
+              "Bio Milch",
+              "Bio Mehl",
+              "Bio Öl")
+```
+
+# Step 2:
+
+To collect all comments posted after January 1st, 2019, from two of the most widely used Subreddits, namely "de" and "FragReddit", a loop was written. The loop iterated through each Subreddit and used the PSAWR (Pushsift.io API Wrapper written in R) module to extract the relevant comments. The comments were then stored in data frames for each Subreddit separately.
+
+```{r step 2, include=FALSE}
+
+comts <- list()
+for (keyword in keywords) {
+    comts[[paste("de", keyword, sep="_")]] <- search_comments(q=keyword,
+                                                                   subreddit="de",
+                                                                   size=3000,
+                                                                   after= "1534d")
+  }
+
+comts_de <- comts
+
+comts <- list()
+for (keyword in keywords) {
+    comts[[paste("Fragreddit", keyword, sep="_")]] <- search_comments(q=keyword,
+                                                                   subreddit="Fragreddit",
+                                                                   size=3000,
+                                                                   after= "1534d")
+  }
+
+comts_Frag <- comts
+
+```
+
+# Step 3:
+
+The data collected in step 2 were combined into data frames using the `rbind` function.
+
+```{r step 3_1}
+comts_de <- rbind(comts_de[[1]],
+                  comts_de[[2]],
+                  comts_de[[3]],
+                  comts_de[[4]],
+                  comts_de[[5]],
+                  comts_de[[6]],
+                  comts_de[[7]],
+                  comts_de[[8]],
+                  comts_Frag[[9]],
+                  comts_Frag[[10]])
+
+comts_Frag <- rbind(comts_Frag[[1]],
+                    comts_Frag[[2]],
+                    comts_Frag[[3]],
+                    comts_Frag[[4]],
+                    comts_Frag[[5]],
+                    comts_Frag[[6]],
+                    comts_Frag[[7]],
+                    comts_Frag[[8]],
+                    comts_Frag[[9]],
+                    comts_Frag[[10]])
+```
+
+Before writing the dataset to an Excel file, the date and time values were converted to the POSIXct format. Unnecessary variables, as well as any data not generated between 2019 and 2022, were eliminated. Furthermore, a numerical index was introduced to the dataset.
+
+```{r step 3_2}
+char_to_datetime <- function(char_dates){
+    as.POSIXct(char_dates,format = "%Y-%m-%d %H:%M:%S")
+}
+
+comts <- rbind(comts_de, comts_Frag)
+comts <- comts %>% 
+  unique %>% 
+  mutate(comments_id = id, 
+         created_utc = as.character(created_utc)) %>% 
+  select(comments_id, 
+         created_utc, 
+         subreddit,
+         body) 
+
+
+
+comts <- comts %>% 
+  mutate(created_utc = char_to_datetime(created_utc)) %>%
+  mutate(year=strftime(created_utc, format="%Y")) 
+
+comts_19_22 <- comts%>% 
+  filter(year==2022|
+         year==2021|
+         year==2020| 
+         year==2019)
+
+comts_19_22 <- tibble::rowid_to_column(comts_19_22,
+                                       "index")
+```
+
+# Step 4:
+
+Finally, the dataset were written to Excel file. The package "writexl" was used for this purpose.
+
+```{r step 4}
+getwd()
+writexl::write_xlsx(list(mysheet1 = comts_19_22),
+                    path = 'comts.xlsx')
+```

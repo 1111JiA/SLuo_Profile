@@ -1,0 +1,345 @@
+---
+title: "Code for final thesis 'Gender difference in pro-environmental behaviors' "
+author: "Shengjia Luo"
+date: "2023-07-05"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+p_load("rio",
+"mlogit",
+"dplyr",
+"tidyr",
+"knitr",
+"haven", 
+"matrixStats", 
+"psych",
+"ggpubr",
+"rstatix",
+"reshape2",
+"purrr",
+"readr",
+"readxl",
+"broom",
+"car",
+"leaps",
+"lme4",
+"flexplot",
+"lmerTest",
+"devtools",
+"sjPlot",
+"kableExtra",
+"webshot",
+"htmltools",
+"broom.mixed",
+"ggplot2") 
+```
+
+# Preparation
+
+## Import Data
+
+```{r}
+getwd()
+data <- read_dta("ZA7650_v1-0-0.dta") 
+```
+
+```{r}
+data %>% filter(c_alphan=="TW") %>% nrow()
+datanew <- data %>% filter(c_alphan!="TW")
+datanew[datanew == -9] <- NA
+datanew$v52[datanew$v52==-4] <- NA
+```
+
+## Cronbach's Alpha Tests
+
+```{r}
+
+a1 <- psych::alpha(subset(datanew, select = c(v54,v55,v56,v57)), check.keys = T)
+a2 <- psych::alpha(subset(datanew, select = c(v52,v53)), check.keys = T)
+a3 <- psych::alpha(subset(datanew, select = c(v26,v27,v28)), check.keys = T)
+a1$total$raw_alpha # public PEB
+a2$total$raw_alpha # private PEB
+a3$total$raw_alpha # willingness to make a sacrifice
+
+```
+
+## PCA Test
+
+```{r}
+itemspr <- datanew[c("v52", "v53")]
+itemspu <- datanew[c("v54","v55","v56","v57")]
+# Conduct principal component factor analysis
+pr_result <- principal(itemspr, nfactors = 1, rotate = "none")
+pu_result <- principal(itemspu, nfactors = 1, rotate = "none")
+print(pr_result)
+print(pu_result)
+```
+
+## Privat and Public PEB Scores
+
+```{r}
+
+# Recode
+datanew$v52_recode <- recode(datanew$v52,"1=3; 2=2; 3=1; 4=0")
+datanew$v53_recode <- recode(datanew$v53,"1=3; 2=2; 3=1; 4=0")
+datanew$v54_recode <- recode(datanew$v54,"1=1; 2=0")
+datanew$v55_recode <- recode(datanew$v55,"1=1; 2=0")
+datanew$v56_recode <- recode(datanew$v56,"1=1; 2=0")
+datanew$v57_recode <- recode(datanew$v57,"1=1; 2=0")
+
+datanew$privatePEB <- rowMeans(subset(datanew, select = c(v52_recode,v53_recode)),na.rm = TRUE)
+datanew$publicPEB <- rowMeans(subset(datanew, select = c(v54_recode,v55_recode,v56_recode,v57_recode)),na.rm = TRUE)
+```
+
+## Concern
+
+```{r}
+datanew$Concern <- datanew$v15
+```
+
+## Willingness to Sacrifice
+
+```{r}
+datanew$v26_recode <- recode(datanew$v26,"1=5; 2=4; 3=3; 4=2; 5=1")
+datanew$v27_recode <- recode(datanew$v27,"1=5; 2=4; 3=3; 4=2; 5=1")
+datanew$v28_recode <- recode(datanew$v28,"1=5; 2=4; 3=3; 4=2; 5=1")
+
+datanew[, c("v26","v27","v28")][datanew[, c("v26","v27","v28")] == -8] <- NA
+
+datanew$WTS <- rowMeans(subset(datanew, select = c(v26_recode,v27_recode,v28_recode)),na.rm = TRUE)
+
+```
+
+## GII: Gender Inequality Index
+
+```{r}
+GII <- read_excel("Gender Inequality Index.xlsx", skip = 5)
+GII <- GII %>% 
+  select(Country,...3) %>% 
+  filter(`Country`=="Austria"|
+         `Country`=="Switzerland"|
+         `Country`=="Denmark"|
+         `Country`=="Finland"|
+         `Country`=="Hungary"|
+         `Country`=="Iceland"|
+         `Country`=="Japan"|
+         `Country`=="New Zealand"|
+         `Country`=="Philippines"|
+         `Country`=="Russian Federation"|
+         `Country`=="Russia"|
+         `Country`=="Slovenia"|
+         `Country`=="Thailand"|
+         `Country`=="Germany") %>% 
+  mutate(GII=as.numeric(...3)) %>% 
+  select(Country,GII)
+```
+
+## Data set
+
+```{r}
+dfnew <- datanew %>% 
+  select(c_alphan, SEX, EDUCYRS, AGE, WORK, TOPBOT, privatePEB, publicPEB, Concern, WTS, WRKSUP) %>% na.omit()
+
+avgbyctry <- dfnew %>% 
+  group_by(c_alphan) %>% 
+  select(EDUCYRS, TOPBOT) %>% 
+  filter(!EDUCYRS==-8 & !TOPBOT==-8) %>% 
+  summarise(across(everything(), ~ mean(., na.rm = TRUE)), .groups = "drop")
+
+
+dfnew <- dfnew %>% 
+  left_join(avgbyctry, by = "c_alphan") %>% 
+  mutate(EDUCYRS=ifelse(EDUCYRS.x==-8,EDUCYRS.y,EDUCYRS.x),
+         TOPBOT=ifelse(TOPBOT.x==-8,TOPBOT.y,TOPBOT.x),
+         WORK=ifelse(WORK==1,1,0),
+         WRKSUP=ifelse(WRKSUP==1,1,0)) %>% 
+  select(-EDUCYRS.x,-TOPBOT.x,-EDUCYRS.y,-TOPBOT.y) 
+
+dfnew$c_alphan <- ifelse(dfnew$c_alphan=="AT","Austria",           
+                  ifelse(dfnew$c_alphan=="CH","Switzerland",       
+                  ifelse(dfnew$c_alphan=="DE","Germany",           
+                  ifelse(dfnew$c_alphan=="DK","Denmark",           
+                  ifelse(dfnew$c_alphan=="FI","Finland",           
+                  ifelse(dfnew$c_alphan=="HU","Hungary",           
+                  ifelse(dfnew$c_alphan=="IS","Iceland",           
+                  ifelse(dfnew$c_alphan=="JP","Japan",             
+                  ifelse(dfnew$c_alphan=="NZ","New Zealand",       
+                  ifelse(dfnew$c_alphan=="PH","Philippines",       
+                  ifelse(dfnew$c_alphan=="RU","Russian Federation",
+                  ifelse(dfnew$c_alphan=="SI","Slovenia",          
+                  ifelse(dfnew$c_alphan=="TH","Thailand", dfnew$c_alphan)))))))))))))
+
+dfnew <- inner_join(dfnew,GII,by=c("c_alphan"="Country")) %>% mutate(Country=c_alphan) %>% select(Country,everything(),-c_alphan) 
+
+dfnew$SEX <- as.numeric(dfnew$SEX)
+dfnew$AGE <- as.numeric(dfnew$AGE)
+dfnew$Concern <- as.numeric(dfnew$Concern)
+dfnew$SEX <- ifelse(dfnew$SEX==1,0,ifelse(dfnew$SEX==2,1,dfnew$SEX))
+dfnew$Country <- factor(dfnew$Country)
+summary(dfnew)
+```
+
+# Analysis
+
+## Descriptive statistics
+
+### Individual-level
+
+```{r}
+dt <- dfnew %>% 
+  select(privatePEB, publicPEB, SEX, AGE, WORK, WRKSUP, Concern, WTS, EDUCYRS, TOPBOT) %>%
+  rename(
+    `Participation in Private PEB` = privatePEB,
+    `Participation in Public PEB` = publicPEB,
+    `Gender (1 = female)` = SEX,
+    Age = AGE,
+    `Years of Education` = EDUCYRS,
+    `Employment (1 = yes)` = WORK,
+    `Supervisory Position At Work (1 = yes)` = WRKSUP,
+    `Environmental Concern` = Concern,
+    `Willingness to Make Sacrifices` = WTS,
+    `Social Status` = TOPBOT)
+
+variables <- c("Age", "Environmental Concern", "Willingness to Make Sacrifices", "Employment (1 = yes)", "Supervisory Position At Work (1 = yes)","Years of Education", "Social Status", "Participation in Private PEB", "Participation in Public PEB")
+
+compute_stats <- function(var_name) {
+  men <- dt %>% filter(`Gender (1 = female)` == 0) %>% pull(var_name)
+  women <- dt %>% filter(`Gender (1 = female)` == 1) %>% pull(var_name)
+  
+  # Compute statistics
+  mean_men <- mean(men, na.rm = TRUE)
+  sd_men <- sd(men, na.rm = TRUE)
+ 
+  
+  mean_women <- mean(women, na.rm = TRUE)
+  sd_women <- sd(women, na.rm = TRUE)
+  
+  
+  # T-test
+  t_test <- t.test(men, women, na.rm = TRUE)
+  
+  # Return a list of statistics
+  return(list(variable = var_name, 
+              mean_men = mean_men, sd_men = sd_men, 
+              mean_women = mean_women, sd_women = sd_women,
+              p_value = t_test$p.value))
+}
+
+statistics_df <- bind_rows(lapply(variables, compute_stats))
+statistics_df <- statistics_df %>% mutate_if(is.numeric, round, 3)
+colnames(statistics_df) <- c("Variable", "Mean (M)", "SD (M)", "Mean (F)",	"SD (F)", "p-value t-test gender difference")
+print(statistics_df)
+
+table <- knitr::kable(statistics_df, "html") %>% 
+  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
+
+save_kable(table,file="table.html")
+```
+
+### Country-level
+
+```{r}
+table2 <- dfnew %>%
+  select(Country, privatePEB, publicPEB) %>%
+  group_by(Country) %>%
+  summarise(across(c(privatePEB, publicPEB), list(mean = mean, sd = sd), na.rm = TRUE),
+            n = n()) 
+GI <- dfnew %>% select(Country,GII) %>% unique()
+table2 <- table2 %>% mutate_if(is.numeric, round, 3)
+table2 <- inner_join(GI,table2)
+colMeans(table2[2:7])
+
+print(table2)
+colnames(table2) <- c("Country", "Gender Inequality Index (GII)", "Mean Private PEB", "SD Private PEB", "Mean Public PEB", "SD Public PEB", "N")
+table2 <- knitr::kable(table2, "html") %>% 
+  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
+
+# Print the table
+table2
+
+save_kable(table2,file="table_country.html")
+```
+
+## MRM Private PEB
+
+```{r}
+dfnew$GII <- log(dfnew$GII)
+modela1 <- lmer(privatePEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + (1 |GII), data=dfnew)
+summary(modela1)
+```
+
+```{r}
+modelb1 <- lmer(privatePEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + GII  + (1 | GII), data=dfnew)
+summary(modelb1)
+```
+
+```{r}
+modelc1 <- lmer(privatePEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + GII*SEX + (1 |GII), data=dfnew)
+summary(modelc1)
+```
+
+```{r}
+modela2 <- lmer(publicPEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + (1 |GII), data=dfnew)
+summary(modela2)
+```
+
+```{r}
+modelb2 <- lmer(publicPEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + GII  + (1 | GII), data=dfnew)
+summary(modelb2)
+```
+
+```{r}
+modelc2 <- lmer(publicPEB ~ 1 + SEX + AGE + Concern + WTS + WORK + WRKSUP + EDUCYRS + TOPBOT + GII*SEX + (1 |GII), data=dfnew)
+summary(modelc2)
+```
+
+```{r}
+# Define new labels for the predictors
+new_labels <- c("Intercept","Gender (1 = female)", "Age", "Environmental Concern", "Willingness to Make Sacrifices", "Employment (1 = yes)", "Supervisory Position At Work (1 = yes)", "Years of Education", "Social Status", "GII", "Gender : GII")
+
+
+# Create the table
+tab_model(
+  modela1, 
+  modelb1, 
+  modelc1, 
+  pred.labels = new_labels,
+  show.se = T, 
+  p.style = "stars",
+  show.ci = F,
+  digits = 3, 
+  digits.p = 3,
+  digits.rsq = 3,
+  digits.re = 3, 
+  use.viewer = T,
+  emph.p = F,
+  title = "MRM Results of PEB in Private Sphere",
+  dv.labels = c("Model 1", "Model 2", "Model 3"),
+  file = "Results1.html"
+)
+
+tab_model(
+  modela2, 
+  modelb2, 
+  modelc2, 
+  pred.labels = new_labels,
+  show.se = T, 
+  p.style = "stars",
+  show.ci = F,
+  digits = 3, 
+  digits.p = 3,
+  digits.rsq = 3,
+  digits.re = 3, 
+  use.viewer = T,
+  emph.p = F,
+  title = "MRM Results of PEB in Public Sphere",
+  dv.labels = c("Model 4", "Model 5", "Model 6"),
+  file = "Results2.html"
+)
+
+```

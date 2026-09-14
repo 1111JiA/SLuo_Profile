@@ -1,0 +1,7 @@
+.DS_Store
+.Rhistory
+.RData
+*.html
+
+# The ISSP source file may be restricted by its data-use terms.
+data/source/ZA7650_v1-0-0.dta

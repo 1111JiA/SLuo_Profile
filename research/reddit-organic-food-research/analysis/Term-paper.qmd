@@ -1,0 +1,622 @@
+---
+title: |
+       | Is Covid-19 Pandemic A Chance For Organic Food in Germany?
+       |
+       | Evidence From Reddit
+subtitle: |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    | Shengjia Luo
+    |
+    | Ludwig-Maximilians-Universität München
+
+    
+format:
+  pdf:
+    documentclass: article
+    toc: true
+    colorlinks: true
+fontsize: 12pt
+bibliography: references.bib
+code-fold: true
+---
+
+\newpage
+
+# Introduction
+
+The COVID-19 pandemic has triggered a global crisis that has had a profound impact on nearly every aspect of our lives. As the world grapples with these uncertain times, it has become increasingly apparent that we need to reassess our approach to various issues, including food consumption. Food consumption plays a vital role in our daily lives, and its impact on the environment cannot be ignored. Private household consumption, particularly in food, mobility, and housing, is estimated to contribute more than 70 percent of the current greenhouse gas (GHG) emissions [@brudererenzler2019]. Furthermore, the current food systems are responsible for almost a third of global greenhouse gas emissions, utilize significant natural resources, and contribute to biodiversity loss [@crippa2021].
+
+A transition to organic food is necessary to create a fair, healthy, and environmentally-friendly food system. Since early 2017, Germany has started to strategically promote organic farming and consumption [^1]. Organic food from European countries is a type of food that is grown with limited use of artificial fertilisers, herbicides and pesticides. It is also produced without the use of genetically modified organisms (GMOs) and is free of artificial preservatives and additives. The organic farming industry sets high standards for animal welfare [^2]. In Germany, the strategy of transition to organic has had a clear effect: the share of organic farming in all German agricultural holdings rose from 6% to 10% between 2010 and 2020 [^3]. Organic food revenues have also grown over the past decade, from 6.64 billion in 2011 to 15.3 billion in 2022 [^4]. This trend has been influenced by several factors, such as food safety, environmental consciousness, personal beliefs, local communities, social interactions, and ethical concerns [@basha2015], [@nica2020], [@pettifor2020], [@tan2016]. It is expected to continue as consumers become more conscious of food production methods and prioritize healthy lifestyles. Many studies support that the crisis raised awareness about the importance of healthy eating and highlighted the need for a more sustainable food system. A national-cross study about changing eating behaviour of 16 European countries during the lockdown shows that despite of limited food options, health consciousness has increased and more people have learned and practiced healthier ways of eating, such as diversifying their diets, using olive oil more often in cooking, consciously consuming more nuts and vegetables, and reducing their consumption of fast food, fried foods and snacks[@molina-montes2021]. Especially the younger generation are more likely to increase consumption of healthy foods [@górnicka2020]. However, those studies base on cross-sectional data, the changes of eating behaviours after the lockdown are rarely mentioned.
+
+[^1]: https://www.bmel.de/EN/topics/farming/organic-farming/strategy-future-organic-farming.html
+
+[^2]: https://agriculture.ec.europa.eu/farming/organic-farming/organic-production-and-products_en
+
+[^3]: https://www.destatis.de/EN/Press/2021/06/PE21_N040_41.html
+
+[^4]: https://www.statista.com/statistics/516703/revenues-organic-food-germany/
+
+Although consumers often state that their purchasing motives for organic food are based on altruistic and public interests, such as environmental benefits, the individual interests such as benefits of health, taste, price, and quality are considered as a greater impact on consumers' purchasing decisions [@hemmerling2015]. Numerous people have turned to organic food as an alternative[@rana2017], which is considered to contain richer nutrients and less unhealthy elements [@kesse-guyot2022], since they have started to question the safety and sustainability of conventional food production. This study aims to find out to what extent has the Covid-19 pandemic changed the perception of the people in Germany about the organic food, so that to gain a deeper understanding of changing public opinions about organic food products.
+
+The emerging of different social media platforms allowing users to share their opinions publicly online and creating an environment where they can express their opinions to strangers and offer feedback on various concerns [@rathore2016], including organic food. Thus, the use of online forums as a source of data provides researchers with a valuable opportunity to gain insight into consumer beliefs and attitudes towards organic food, which can ultimately inform policies and strategies aimed at promoting sustainable and healthy food systems. The main benefits are twofold. On the one hand, users have the freedom to express their opinions without the social pressures and biases that may arise from face-to-face interactions, leading to a more honest and accurate expression of views. On the other hand, the acquisition of online post and comment data is often a low-cost or even free method of data collection compared to traditional methods, which require substantial financial investments. Additionally, social media data can sometimes be obtained for several years, providing researchers with an extensive and valuable archive of information. Despite the increasing practice of using social media analytics to predict current trends and matters of common interest and beliefs regarding organic food [@danner2020], most studies still use traditional paper surveys and semi-interviews to study consumer opinions towards organic food in different cultural contexts. Due to relatively insufficient German sources of text as well as opinion mining tools, there are not much materials about using these techniques to do topic clustering or sentiment analysis available in German language. Use social media data to analyse people's options, attitudes and focus towards organic food is still in an early stage.
+
+This research employs R programming language to gather data from the online forum "Reddit" during the period from 2019 to 2022. The study's primary focus is on text mining and sentiment analysis, a computational technique used to extract user opinions from social media platforms. The data collection process will only include the two most active German communities. The objective of this computational approach is to detect meaningful patterns, frequent words, and polarity in user opinions before and after the year 2020, which is when the Covid-19 pandemic occurred. The study aims to address the following primary research inquiries:
+
+1.  Can Reddit text mining techniques be successfully utilized to identify hidden patterns in users' sentiments towards organic food? Has there been a shift in people's attitudes towards organic food?
+2.  What changes can be detected from in the comments of German Reddit users with respect to organic food products, particularly when they express their views on health, taste, price, and environmental issues associated with organic food?
+
+This study is structured in the following sections. The next section gives a brief background and related work in the areas of consumer opinion, Reddit, and text mining applications. It is followed by a section that addresses the methods and data utilized to conduct the analysis. Issues associated with research design, sampling, and data analysis techniques are presented in this section. Section on results deals with the findings of opinion mining. And finally, the discussions and limitations of the study are provided in the last section.
+
+\newpage
+
+# Background And Related Works
+
+## Using Social Media and Data Mining Techniques To Understand Consumers' Opinions
+
+The use of social media data to study consumer' opinions is not a new concept. With the increasing reliance of consumers on the internet for information and purchases, social media has emerged as a crucial source for researchers to understand consumer attitudes and preferences [@singh2018], [@filieri2013]. The popularity of social media platforms as virtual places for communication and interaction, coupled with the vast amount of data they generate, has made them a valuable tool for businesses and organizations to engage with potential consumers, market their products, and receive feedback. Social media also allows researchers to understand consumer needs and their perceptions of product attributes, which can help inform marketing strategies [@chua2013]. In the tertiary sector, such as hotels and restaurants, the impact of reviews on social media platforms on consumer behavior is significant. Negative reviews, in particular, can dissuade consumers from choosing a particular hotel or restaurant [@zhao2015], [@park2016]. Understanding and analyzing the thoughts shared by consumers in time makes a lot of sense. In the area of food consumption, by using machine learning algorithm as well as Latent Dirchlet Allocation based model, @brzustewicz2021 indentified successfully six topics related to sustainable consumption from collected Tweets, which are most important to costumers in the time of pandemic. They also analysed the emotion among the tweets by using the NRC Emotion Lexicon. As conclusion, they proof that health consideration as well as healthy eating behaviour play a more important role as consumers making purchase decision, and organic food becomes an optimal alternative choice. @samoggia2020 collected 13000 tweets from over 4000 users, and explores how people associate health with coffee. Results demonstrated that in most tweets there was a neutral or slightly positive sentiment toward the benefits of coffee on health. A study in Indonesia based on the Tweeter dataset provided evidence that consumers are increasingly accepting organic food as a healthy dietary food during the pandemic, and pointed to Indonesia as a potential country for organic food producers and consumers [@rintyarna2021].
+
+## Reddit
+
+Reddit.com is considered to be one of the largest and most active online forums available. In the year 2020, Reddit received monthly over 30 billion views, with a recorded 430 million active users each month[^5]. The platform's users, also known as "Redditors", actively participate by providing subscriptions and contributing content to their intersted communities. The platform is segmented into subreddits, which serve as smaller communities within the larger forum. This particular feature is highly beneficial for both users and researchers, as it facilitates the process of filtering topics and posts that are related to their specific interests. Since Reddit's inception 16 years ago, the number of subreddits has consistently increased, with the current number standing at over 100 thousands active subreddits [^6]. Unlike other social media platform such as Youtube, Tweeter and Facebook, Subreddits are largely managed by volunteer moderators, who have a great deal of discretion in setting and enforcing rules regarding user behaviour and content review. Compare to platforms with centralised way of moderation, is Reddit more optimal for research cases about people's respond to vulnerable problems such as policy [@yan2021], [@shen2019], [@he2020], political radicalization [@gaudette2021], [@grover2019], hate speech [@wickham], social movement [@khan], racism [@yang2018] ect. Due to the anonymity afforded to users on Reddit, the platform's datasets have proven to be particularly useful for researchers investigating sensitive topics related to vulnerable populations and socially unacceptable behaviors. Traditional survey methods can often result in high non-response rates and biased answers, whereas Reddit allows individuals to speak openly and honestly about their experiences without fear of judgment or reprisal. As a result, researchers have been able to conduct studies on a wide range of topics, including mental health disorders[@fraga2018], depression [@pirina2018], experiences of abuse [@lin2022], sexually transmitted infections[@johnson2022], misogyny across the manosphere [@farrell2019], and drug-related issues [@lu2019]. In addition to its utility for studying sensitive topics, Reddit datasets have also been used to understand market trends in various industries. For example, researchers have used subreddit data to to gain insight into the status quo of the e-cigarette market, identifying different consumer groups such as underage users or those living in metropolitan areas [@zhan2019], [@zhan2017], as well as determine flavor preferences and average consumption frequencies of e-cigarettes [@barker2019], [@wang2015].
+
+[^5]: https://startupbonsai.com/reddit-statistics/
+
+[^6]: https://www.redditinc.com/
+
+## Sentiment Analysis
+
+Sentiment analysis is a natural language processing (NLP) method that analyses text patterns and categorizes them based on the polarity of their expressions, i.e. whether they convey positive or negative sentiments. Two main methods are widely used in sentiment analysis, namely the machine learning-based approach and the lexicon-based approach. The former uses supervised sentiment analysis techniques supported by machine learning algorithms to classify texts based on their sentiment [@neethu2013]. The latter relies on pre-developed sentiment lexicons to determine the polarity of texts [@taboada2011], and the sentiment score of a text is determined by aggregating the overall polarity scores of all tokens in the text.
+
+Both methods have their own advantages and disadvantages [@yusof2015]. The lexicon-based approach is widely used because it is easily accessible through many publicly available resources, and it does not require training data or advanced sentiment analysis algorithms. The weaknesses include for example, lexicon-based sentiment analysis methods often fail to detect sarcasm, negation, grammatical errors, misspellings or irony. Also, a word can have different meanings depending on the context of the communication. For instance, the term "incredible" can be either positive or negative, depending on the context. These differences cannot be detected, resulting in constant sentiment scores for the word. As the entire classification process is based on existing tags and rules, researchers may need enough data to manually create a custom dictionary in order to improve the accuracy of the classification results, which can be time-consuming in terms of data preparation. Automated Methods include ML algorithms that categorize sentiment based on statistical models. The sentences must be transformed into vector space to implement machine learning algorithms, such as Naive Bayes and Support Vector Machine. By using this approach, the models can be trained to predict the sentiment of a sentence. And sarcasm, irony, or negation in sentiment analysis can be identified, thus, provides a higher accuracy of classification. The drawbacks are the complexity of working on algorithms, which requires high-quality training data.
+
+\newpage
+
+# Data And Method
+
+This section provides an overview of the integrated methodology utilized in the study, which includes data collection, data cleaning/pre-processing, and text mining techniques for analysis. The proposed framework is presented in @fig-framework, which provides a visual representation of the methodological structure of the study.
+
+![Framework Of Data Analysis Method](2023-03-19%2014.10.32-01.png){#fig-framework fig-align="center"}
+
+Data collection was the first step in this study. Reddit was chosen as the primary data source. Comments were collected using PSAWR, an R wrapper for the Pushshift API, which is a database of Reddit posts. One of the advantages of using PSAWR is that the data can be downloaded as a tibble, which reduce the work on parsing and organizing the data. The analysis focused on Reddit users in Germany and their opinions on organic food. To this end, the author limited the research to two of the most used German subreddits, namely "de" and "Fragreddit". Until 2023 there were over 1.1 millions redditors subscribing "de" subreddit, while the number of subscriber of subreddit "Ftagreddit" was over 341 thousand. All comments posted in these subreddits between 2019 and 2022 that mentioned keywords related to organic food were collected. 10 keywords were generated for data collection, including "Bio", "Bio Lebensmittel", "bio Lebensmittel", "Bio essen", "Bio Fleisch", "Bio Eier", "Bio Gemüse", "Bio Milch", "Bio Mehl" and "Bio Öl". The selection of keywords was informed by the report on the German organic industry for the period of 2019 to 2022, which was generated by the Federation of the Organic Food Industry (BÖLW). Based on the report, the organic food categories with the highest sales volume in Germany were organic meat, eggs, vegetables, milk, flour, and oil. Given their higher sales volume, the author assumed that people are more familiar with these organic food categories, and as a result, it is possible that their comments contain these keywords. After removing all duplicate comments,the collected data were recorded in an Excel file.
+
+The second step was to clean the comments obtained in the first step for the final analysis. Since social media datasets are usually messy and unstructured, it was necessary to use specific applications to extract words from the comments and to remove non-alphabetic characters such as numbers and special characters, as well as leading, trailing and multiple spaces. The packages "tidytext" and "lsa" were used to achieve this. In addition, some words that were considered less meaningful were filtered out manually. It should also be noted that tokenisation, the process of breaking up text into smaller units, cannot avoid semantically equivalent terms being counted as different units. To address this issue, the "SnowballC" package was used to reduce inflectional forms, also known as stemming or lemmatization. Until this step, the data were ready to be analysed.
+
+As part of the analysis, sentiment analysis was conducted using a lexicon-based approach. The chosen resource for calculating the sentiment score of collected Reddit comments was SentiWS, or SentimentWortschatz, which is a publicly available German language resource designed to support sentiment analysis, opinion research, and related tasks. It can be directly downloaded online [^7]. SentiWS consists of an extensive list of words that convey positive and negative sentiments, each with a score ranging from -1 to 1. The resource also includes part-of-speech (POS) tags and inflections where applicable, providing a more comprehensive understanding of the context in which the words are used. The lexicon comprises 1650 positive words and 1818 negative words, which together yield a total of 15649 positive forms and 15632 negative forms, including downgrades. Moreover, the resource encompasses various parts of speech, such as adjectives, adverbs, nouns, and verbs, enabling a more nuanced sentiment analysis. Compared to other German language lexicon-based sentiment analysis resources, SentiWS has provided superior performance [@fehle2021]. As such, it serves as a valuable resource for researchers looking to incorporate sentiment analysis capabilities into their German language applications.
+
+[^7]: https://osf.io/x89wq
+
+The aim of conducting sentiment analysis using SentiWS was to measure the intensity of emotions as well as scores of tokens, in order to gain insights into the attitudes of German Reddit users towards organic food products, both before and after the occurrence of Covid-19 pandemic. This was achieved through following steps:
+
+1.  Identifying the most commonly used words in comments for each year.
+2.  Conducting a sentiment analysis of organic food-related comments for each year to determine the polarity of the comments and any shifts or changes in sentiment over time, and calculating the average sentiment scores of the comments for each year as well as the proportion of positive and negative comments. 
+3.  Comparing the emotional-related words that were most frequently used for each year. 
+4.  In addition, comments were analyzed based on 4 key aspects - health, taste, sustainability, and price - to explore users' individual and collective interests in organic food products.
+
+\newpage
+
+# Results
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(stringr)  
+library(tidytext) 
+library(lsa)  
+library(SnowballC)
+library(wordcloud)
+library(skimr)
+library(patchwork)
+library(quanteda)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(knitr)
+library(devtools)
+```
+
+```{r Load data, include=FALSE}
+#| lable: load data 
+comts_19_22 <- read.csv("Dataset.csv",header=T)
+
+char_to_datetime <- function(char_dates){
+    as.POSIXct(char_dates,format = "%Y-%m-%d %H:%M:%S")
+}
+
+comts_19_22 <- comts_19_22 %>% mutate(created_utc = char_to_datetime(created_utc))
+```
+
+```{r Tokenization and pre-processing, message=FALSE,warning=FALSE, include=FALSE}
+cmts_detatil <- comts_19_22 
+
+tokens <- cmts_detatil  %>%  unnest_tokens(output = word, input = body)
+
+tokens1 <- tokens %>% filter(str_detect(word, "[a-z]"))
+
+data(stopwords_de, package = "lsa")
+
+stopwords_de <- data_frame(word = stopwords_de)
+
+tokens_clean <- tokens1 %>% 
+  na.omit() %>% 
+  anti_join(stopwords_de) %>% 
+  filter(!str_detect(word, "\\d"),
+         !word %in% c("du", "gibt", "also", "https", "doch", "er",
+                      "dir","z.b","amp","etc","paar","a","e","ca",
+                      "mal","musst","schon", "man", "vom","gt","amp","https"))
+
+tokens_stem <- tokens_clean %>% 
+  dplyr::mutate(word = wordStem(word, language = "de"))
+
+count <- tokens_stem %>% group_by(year) %>% 
+  count(word, sort = TRUE)
+```
+
+```{r Growth rate, warning=FALSE, message=FALSE,echo=FALSE}
+#| label: tbl-growth
+#| tbl-cap: "Increasing Comments"
+
+growth_de <- comts_19_22 %>% 
+  filter(subreddit=="de") %>% 
+  group_by(year) %>% 
+  count
+
+growth_de$growth_pct <- round(
+  (growth_de$n - lag(growth_de$n)) / 
+    lag(growth_de$n) * 100,
+  2)
+
+growth_frag <- comts_19_22 %>%
+  filter(subreddit=="FragReddit") %>% 
+  group_by(year) %>% 
+  count
+
+growth_frag$growth_pct <- round(
+  (growth_frag$n - lag(growth_frag$n)) / 
+    lag(growth_frag$n) * 100,
+  2)
+
+growth_both <- comts_19_22 %>% 
+  group_by(year) %>%
+  count 
+
+growth_both$growth_pct <- round(
+  (growth_both$n - lag(growth_both$n)) / 
+    lag(growth_both$n) * 100,
+  2)
+
+growth <- cbind(growth_de,
+                growth_frag,
+                growth_both) %>%
+          select(-4,-7)
+
+colnames(growth) <- c("year",
+                      "comts.de","growth.pct.de",
+                      "comts.frag","growth.pct.frag",
+                      "comts.all","growth.pct.all")
+
+kable(growth)
+```
+
+A total of `r nrow(comts_19_22)` comments were obtained (n = `r nrow(comts_19_22)`), resulting in the extraction of `r nrow(tokens1)` words. Following the pre-processing phase, the number of words was reduced to `r nrow(tokens_stem)`. @tbl-growth indicates a substantial increase in the volume of organic food-related comments across both subreddits. In particular, the number of comments posted in 2021 was approximately `r round(growth$growth.pct.all[3])`% higher than the preceding year. Prior to 2021, the majority of comments were identified in the "de" subreddit. However, by the conclusion of 2022, the number of comments in both subreddits had converged. In 2022, `r growth$comts.de[4]` comments were collected from the "de" subreddit, while the "Fragreddit" subreddit generated `r growth$comts.frag[4]` comments.
+
+```{r Most common words visualization, warning=FALSE, message=FALSE,echo=FALSE}
+#| label: fig-words
+#| fig-cap: "Most Common Words (2019~2022)"
+
+
+count %>% 
+  group_by(year) %>% 
+  slice_max(n = 15, order_by = n) %>%
+  ggplot() +
+  aes(x = reorder(word, n), y = n) +
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  facet_wrap(~year, scales = "free") + 
+  labs(x = "Word", 
+     y = "Frequency",
+     title = "Most common words")+
+  theme(axis.text = element_text(size = 5))
+
+```
+
+The frequently used words are depicted in @fig-words. Apart from the word "bio", which means organic in German, animal products such as milk, egg and meat ("milch", "eier", "fleisch"), vegetables ("gemus"), animal ("tier"), feeding ("halt"), vegan ("vegan") and nature ("natur") were frequently mentioned in comments related to organic food. This suggests that people have a tendency to associate organic food with vegan eating habits, the relationship between nature and human, and animal welfare, which is partially consistent with previous research [@rintyarna2021], [@ladislavpilar2018].
+
+```{r Senti, warning=F, message=FALSE, include=FALSE}
+sentiws <- read_delim("https://osf.io/x89wq/?action=download")
+
+tokens_senti <- tokens_clean %>% 
+  inner_join(sentiws) %>% 
+  select(-inflections)%>% 
+  dplyr::mutate(word = wordStem(word, language = "de"), 
+                value=as.numeric(value))
+
+polarity <- tokens_senti %>%
+  group_by(index,year) %>%
+  summarise(sum_per_comment = sum(value),year=year) %>% 
+  unique() %>% 
+  mutate(Polarity=ifelse(sum_per_comment>=0,"Positive","Negative"))
+```
+
+```{r Senti mean, warning=F, message=FALSE, echo=FALSE}
+#| label: tbl-polarity
+#| tbl-cap: "Sentiment score between 2019 and 2022"
+#| 
+S1 <- polarity %>% 
+  group_by(year) %>% 
+  summarise(Polarity_mean=mean(sum_per_comment)) %>% 
+  round(3)
+
+S2 <- polarity %>% 
+  group_by(year,Polarity) %>% 
+  summarise(count = n()) %>% 
+  mutate(Prop_neg = (count / sum(count)) %>% 
+           round(2)) %>% 
+  filter(Polarity=="Negative") %>% 
+  select(year,Prop_neg)
+
+Ss <- left_join(S2,S1)
+kable(Ss)
+```
+
+Each word from each comment was assigned a sentiment score according to the SentiWS dictionary. If the word was not included in the dictionary, it was not taken into account in the sentiment analysis. Each comment's sentiment was measured. It is achieved by calculating the sum of sentiment score of detected words in each comment. The comment having an sentiment of 0 or more is considered positive, otherwise it's negative. @tbl-polarity shows the sentiment value of the comments each year and the change in the proportion of emotionally negative comments, it is possible to see a clear trend that the percentage of German Redditors giving negative comments on organic food related topics continues to decrease. However, there is no evidence of a possible shift in sentiment, as the polarity of the comments remains negative.
+
+```{r Senti words visualization, warning=F, message=FALSE, echo=FALSE}
+#| label: fig-term
+#| fig-cap: Term Frequency
+#| fig-subcap: 
+#|   - "2019"
+#|   - "2020"
+#|   - "2021"
+#|   - "2022"
+#| layout-ncol: 2
+tokens_senti %>%
+  filter(year==2019) %>% 
+  select(year,word,neg_pos) %>% 
+  group_by(word) %>% 
+  mutate(n=n()) %>% 
+  unique() %>% 
+  arrange(desc(n)) %>% 
+  group_by(neg_pos) %>% 
+  slice_max(n = 5, order_by = n) %>% 
+  ggplot() +
+  aes(x = reorder(word, n), y = n) +
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  facet_wrap(~neg_pos, scales = "free_y") + 
+  labs(x = "Word", 
+     y = "Frequency",
+     title = "Most common words 2019")
+
+tokens_senti %>%
+  filter(year==2020) %>% 
+  select(year,word,neg_pos) %>% 
+  group_by(word) %>% 
+  mutate(n=n()) %>% 
+  unique() %>% 
+  arrange(desc(n)) %>% 
+  group_by(neg_pos) %>% 
+  slice_max(n = 11, order_by = n) %>% 
+  ggplot() +
+  aes(x = reorder(word, n), y = n) +
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  facet_wrap(~neg_pos, scales = "free_y") + 
+  labs(x = "Word", 
+     y = "Frequency",
+     title = "Most common words 2020")
+
+tokens_senti %>%
+  filter(year==2021) %>% 
+  select(year,word,neg_pos) %>% 
+  group_by(word) %>% 
+  mutate(n=n()) %>% 
+  unique() %>% 
+  arrange(desc(n)) %>% 
+  group_by(neg_pos) %>% 
+  slice_max(n = 11, order_by = n) %>% 
+  ggplot() +
+  aes(x = reorder(word, n), y = n) +
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  facet_wrap(~neg_pos, scales = "free_y") + 
+  labs(x = "Word", 
+     y = "Frequency",
+     title = "Most common words 2021")
+
+tokens_senti %>%
+  filter(year==2022) %>% 
+  select(year,word,neg_pos) %>% 
+  group_by(word) %>% 
+  mutate(n=n()) %>% 
+  unique() %>% 
+  arrange(desc(n)) %>% 
+  group_by(neg_pos) %>% 
+  slice_max(n = 11, order_by = n) %>% 
+  ggplot() +
+  aes(x = reorder(word, n), y = n) +
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  facet_wrap(~neg_pos, scales = "free_y") + 
+  labs(x = "Word", 
+     y = "Frequency",
+     title = "Most common words 2022")
+
+```
+
+@fig-term depicts the most frequently used words, categorized as either positive or negative, for each year. Negative terms such as "cheap (billig)" and "expensive (teu)" were found to be used more frequently, while the term "healthy (gesund)" was used more frequently starting from 2021. This result reveals that price-related comments were of greater interest to the community, in particular, the term "expensive" was used very frequently, which consist to previous researches dealing with pandemic effects on higher acceptance of organic food [@rintyarna2021], [@brzustewicz2021], this finding suggests that negative perceptions of organic food are often related to its high price, and during the pandemic period, people have become more interested in organic food as an alternative food choice due to its perceived health benefits.
+
+```{r Senti health,message=F, include=FALSE}
+cmts_health <- cmts_detatil %>% filter(grepl('gesund|ungesund|Gesundheit|Immum|gesünder|ungesünder|fit|Qualität|unschädlich', body))
+
+tokens_health <- cmts_health %>% unnest_tokens(output = word, input = body)
+
+tokens_health <- tokens_health %>% filter(str_detect(word, "[a-z]"))
+
+tokens_clean_health <- tokens_health %>%
+  na.omit() %>%
+  anti_join(stopwords_de) %>%
+  filter(!str_detect(word, "\\d"),
+         !word %in% c("du", "gibt", "also", "https", "doch", "er",
+                      "dir","z.b","amp","etc","paar","a","e","ca",
+                      "mal","musst","schon", "man",
+                      "vom","gt","amp","https"))
+tokens_senti_health <- tokens_clean_health %>%
+                       inner_join(sentiws) %>%
+                       select(-inflections)%>%
+                       dplyr::mutate(word = wordStem(word, 
+                                                     language = "de"), 
+                                     value=as.numeric(value))
+polarity1 <- tokens_senti_health %>% 
+  group_by(index,year) %>% 
+  summarise(sum_per_comment = sum(value),
+            year=year) %>%
+  unique() %>% 
+  mutate(Polarity=ifelse(sum_per_comment>=0,
+                         "Positive",
+                         "Negative"))
+```
+
+```{r Senti taste,message=FALSE, include=FALSE}
+cmts_taste <- cmts_detatil %>% filter(grepl('schmeck|schmack|wohlschmeckend|lecker|deliziös|köstlich|schmeckend|Geschmack', body))
+
+tokens_taste <- cmts_taste %>% unnest_tokens(output = word, input = body)
+
+tokens_taste <- tokens_taste %>% filter(str_detect(word, "[a-z]"))
+
+tokens_clean_taste <- tokens_taste %>%
+  na.omit() %>%
+  anti_join(stopwords_de) %>%
+  filter(!str_detect(word, "\\d"),
+         !word %in% c("du", "gibt", "also", "https", "doch", "er",
+                      "dir","z.b","amp","etc","paar","a","e","ca",
+                      "mal","musst","schon", "man",
+                      "vom","gt","amp","https"))
+tokens_senti_taste <- tokens_clean_taste %>%
+                       inner_join(sentiws) %>%
+                       select(-inflections)%>%
+                       dplyr::mutate(word = wordStem(word, 
+                                                     language = "de"), 
+                                     value=as.numeric(value))
+polarity2 <- tokens_senti_taste %>% 
+  group_by(index,year) %>% 
+  summarise(sum_per_comment = sum(value),
+            year=year) %>%
+  unique() %>% 
+  mutate(Polarity=ifelse(sum_per_comment>=0,
+                         "Positive",
+                         "Negative"))
+```
+
+```{r Senti eco,message=FALSE, include=FALSE}
+cmts_eco <- cmts_detatil %>% filter(grepl('umwelt|nachhaltig|ökologisch|Ökologie|umweltverantwortlich|umweltbewusst|umweltschädlich', body))
+
+tokens_eco <- cmts_eco %>% unnest_tokens(output = word, input = body)
+
+tokens_eco <- tokens_eco %>% filter(str_detect(word, "[a-z]"))
+
+tokens_clean_eco <- tokens_eco %>%
+  na.omit() %>%
+  anti_join(stopwords_de) %>%
+  filter(!str_detect(word, "\\d"),
+         !word %in% c("du", "gibt", "also", "https", "doch", "er",
+                      "dir","z.b","amp","etc","paar","a","e","ca",
+                      "mal","musst","schon", "man",
+                      "vom","gt","amp","https"))
+tokens_senti_eco <- tokens_clean_eco %>%
+                       inner_join(sentiws) %>%
+                       select(-inflections)%>%
+                       dplyr::mutate(word = wordStem(word, 
+                                                     language = "de"), 
+                                     value=as.numeric(value))
+polarity3 <- tokens_senti_eco %>% 
+  group_by(index,year) %>% 
+  summarise(sum_per_comment = sum(value),
+            year=year) %>%
+  unique() %>% 
+  mutate(Polarity=ifelse(sum_per_comment>=0,
+                         "Positive",
+                         "Negative"))
+```
+
+```{r Senti price,message=FALSE, include=FALSE}
+cmts_price <- cmts_detatil %>% filter(grepl('preis|billig|teuer|günstig|luxus|aufwendig|kost', body))
+
+tokens_price <- cmts_price %>% unnest_tokens(output = word, input = body)
+
+tokens_price <- tokens_price %>% filter(str_detect(word, "[a-z]"))
+
+tokens_clean_price <- tokens_price %>%
+  na.omit() %>%
+  anti_join(stopwords_de) %>%
+  filter(!str_detect(word, "\\d"),
+         !word %in% c("du", "gibt", "also", "https", "doch", "er",
+                      "dir","z.b","amp","etc","paar","a","e","ca",
+                      "mal","musst","schon", "man",
+                      "vom","gt","amp","https"))
+tokens_senti_price <- tokens_clean_price %>%
+                       inner_join(sentiws) %>%
+                       select(-inflections)%>%
+                       dplyr::mutate(word = wordStem(word, 
+                                                     language = "de"), 
+                                     value=as.numeric(value))
+polarity4 <- tokens_senti_price %>% 
+  group_by(index,year) %>% 
+  summarise(sum_per_comment = sum(value),
+            year=year) %>%
+  unique() %>% 
+  mutate(Polarity=ifelse(sum_per_comment>=0,
+                         "Positive",
+                         "Negative"))
+```
+
+```{r Comments on 4 aspects 1, include=FALSE}
+cmts_health$word <- "health"
+cmts_taste$word <- "taste"
+cmts_eco$word <- "eco"
+cmts_price$word <- "price"
+cmts <- rbind(cmts_health,cmts_taste,cmts_eco,cmts_price)
+```
+
+```{r Comments on 4 aspects 2, echo=FALSE}
+#| label: fig-4dims
+#| fig-cap: Number of Comments mentioned Keywords (2019~2022)
+
+cmts %>%
+  group_by(word,year) %>%
+  count %>%
+  ggplot(aes(x=year,y=n))+
+  geom_point(aes(color=word))+
+  geom_line(aes(group = word, color=word, linetype=word))+
+  theme_bw()+
+  labs(y="Number of Comments")
+
+```
+
+```{r Senti health stat,message=F, include=FALSE}
+
+
+S3 <- polarity1 %>% 
+  group_by(year) %>% 
+  summarise(Polarity_mean=mean(sum_per_comment)) %>% 
+  round(3)
+
+
+S4 <- polarity1 %>% 
+  group_by(year,Polarity) %>% 
+  summarise(count = n()) %>% 
+  mutate(Prop_neg = (count / sum(count)) %>% 
+           round(2)) %>% 
+  filter(Polarity=="Negative") %>% 
+  select(year,Prop_neg)
+
+Sh <- left_join(S4,S3)
+```
+
+```{r Senti taste mean,message=FALSE, include=FALSE}
+
+S5 <- polarity2 %>% 
+  group_by(year) %>% 
+  summarise(Polarity_mean=mean(sum_per_comment)) %>% 
+  round(3)
+
+
+S6 <- polarity2 %>% 
+  group_by(year,Polarity) %>% 
+  summarise(count = n()) %>% 
+  mutate(Prop_neg = (count / sum(count)) %>% 
+           round(2)) %>% 
+  filter(Polarity=="Negative")%>% 
+  select(year,Prop_neg)
+
+St <- left_join(S6,S5)
+
+```
+
+```{r Senti eco mean,message=FALSE, include=FALSE}
+
+S7 <- polarity3 %>% 
+  group_by(year) %>% 
+  summarise(Polarity_mean=mean(sum_per_comment)) %>% 
+  round(3)
+
+
+S8 <- polarity3 %>% 
+  group_by(year,Polarity) %>% 
+  summarise(count = n()) %>% 
+  mutate(Prop_neg = (count / sum(count)) %>% 
+           round(2)) %>% 
+  filter(Polarity=="Negative") %>% 
+  select(year,Prop_neg)
+
+Se <- left_join(S8,S7)
+
+```
+
+```{r Senti price mean,message=FALSE, include=FALSE}
+
+S9 <- polarity4 %>% 
+  group_by(year) %>% 
+  summarise(Polarity_mean=mean(sum_per_comment)) %>% 
+  round(3)
+
+
+S10 <- polarity4 %>% 
+  group_by(year,Polarity) %>% 
+  summarise(count = n()) %>% 
+  mutate(Prop_neg = (count / sum(count)) %>% 
+           round(2)) %>% 
+  filter(Polarity=="Negative") %>% 
+  select(year,Prop_neg)
+
+Sp <- left_join(S10,S9)
+
+```
+
+Based on previous work, the author assumes that people's decision to purchase organic food is mainly influenced by 4 aspects, including health, taste, environmental concerns and price. To study these influencing aspects, comments containing any of these keywords were extracted and grouped into separate data frames. The number of comments related to each of these keywords was then plotted over the years 2019 to 2022 in @fig-4dims. The results reveal a significant increase in the number of comments related to all four keywords, with price-related keywords being the most frequently mentioned. The number of comments related to the environment remained consistently lower than the other three, and the growth of such comments slowed down in 2022, while comments containing other keywords continued to grow at a higher rate each year. Although it cannot be proven that people place less importance on the environmental attributes of organic food, the fact that the number of comments on this aspect is consistently lower than the number of comments related to personal interest suggests to some extent that people may be less interested in discussing common interests in their daily lives. Discussions on price and taste are more subjective, experience-driven, and require less factual knowledge than those on environmental and health-related attributes, making them more susceptible to market and personal feelings. The low barrier to entry for such discussions has made them popular topics on social media platforms such as Reddit. These characteristics could provide an explanation for the increased popularity of organic food and price and taste-related discussions on Reddit until the end of 2020. Since 2021, there has been a notable increase in the frequency of comments referencing health-related keywords in discussions about organic food. This trend has surpassed those related to taste-related keywords. The pandemic may have contributed to a higher number of discussions that center around the objective knowledge-based attributes of organic food, including its health and unhealthy aspects. This observation can as another envidence of the contribution of global pandemic on an increase in health consciousness among people [@brzustewicz2021]. And these discussions have continued even after the "end" of the pandemic, highlighting the sustained interest in the topic of organic food.
+
+```{r tbl aspects, message=FALSE, warning=F, echo=FALSE}
+#| label: tbl-aspects
+#| layout-ncol: 2
+#| tbl-cap: "Sentiment Scores for different aspects"
+#| tbl-subcap: ["Health", "Taste", "Environment", "Price"]
+kable(Sh)
+kable(St)
+kable(Se)
+kable(Sp)
+```
+
+Moreover, the results of the sentiment analysis of the comments related to each aspect presented in @tbl-aspects show that the overall average polarity for all keywords is below 0. Notably, the sentiment scores for 2019 are not considered meaningful for the purpose of comparing sentiment scores due to the small sample size and the considerable gap in sentiment scores for comments after 2019. However, there has been an improvement as the percentage of comments expressing negative sentiment regarding organic food and the environment, taste, and health has been decreasing from 2020 to 2022. The comments on organic food and price show a higher unpredictability. 45% of the comments about organic food and prices were negative in 2020, a percentage that rose to 56% in 2021 and decreased by 1% to 55% in 2022. Additionally, sentiment scores did not increase or decrease correspondingly with the percentage of negative comments, as has occurred with environmental and health-related comments. The results highlight Redditors' higher sensitivity to price and reveals a more unpredictable polarity and enhanced intensity of these comments. An inconstancy with negative comments rate and sentiment scores are also detected from taste-related comments.
+
+\newpage
+
+# Conclusion
+
+In summary, the analysis of data from Reddit's most popular German subreddits, "de" and "FragReddit," has successfully demonstrated a consistent trend of communication and discussion regarding organic food. This implies that the organic food market has the potential to grow, as there is a continued interest in this topic. Moreover, it appears that public attitudes towards organic food may become more positive in the future. It is notable that rather than focusing on the environmental aspects of organic food, which is a common area of interest, discussions on Reddit tend to center on the subjective and self-oriented attributes of organic food, such as its impact on health, taste, and price. The higher intensity of sentiment in price- and taste-related comments, which leads to inconsistency with negative comment rates and sentiment scores, suggests that the polarity of people's perceptions of organic food with regard to these aspects is more unpredictable. However, these unpredictable yet influential topics indicate a possible way to shift people's perceptions towards organic food in the short term by providing organic food products that meet more people's taste preferences or offer an attractive price point. In the long term, two other aspects need to be considered. Comments mentioning "health" and "environment" exhibit a more dramatic increase in sentiment scores compared to those mentioning more personal keywords such as "taste" and "price". The average sentiment scores for the former ranged between approximately -0.8 and -0.2, while the average sentiment scores for the latter ranged from approximately -0.4 to -0.1. Although comments regarding the environmental and health attributes of organic food did not have higher sentiment scores, they indicate a clear tendency of a rising polarity. Therefore, continuously valuing and improving the positive health and environmental effects of organic food can also help shift sentiment from negative to positive. This may require education, basic knowledge, and awareness-raising campaigns about the benefits of organic food, as well as strategies to make organic food more attractive, accessible, and affordable to a broader range of consumers.
+
+\newpage
+
+# Discussion & Limitations
+
+This study employs a computational-based method that is more cost-effective and time-efficient than traditional survey techniques that rely on voluntary participation in pencil or online questionnaires. Social media platforms provide a faster and more affordable alternative of analyzing large volumes of data. Moreover, the results obtained can be easily compared to macro objective measures, such as sales data, revenue, and price trends. By using the readily available data from Reddit, this study offers a unique perspective on the opinions of people in Germany towards organic food between 2019 and 2022. However, there are some limitations. First, as mentioned in previous section, the collected data from 2019 are compared to the other years insufficient ( n = 48 ), which results radically negative polarity as conducting sentiment analysis. Thus, the reliability and comparability of the results decrease. Second, although the data are from German subreddits, the users' information such as nationality and place of residence cannot be proven. Hence, it is possible that people are not from Germany also contribute comments in the Subreddits. Any generalization of the results needs to be proven more precisely. The third limitation of the study pertains to the utilization of SentiWS as a word-emotion association lexicon. Although the NRC Lexicon is an optimal tool for analyzing sentiments and their associations with eight basic emotions (i.e., anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) in English words, it only achieves an average F1[^8] measure of 47.7% when analyzing German text [@fehle2021a]. SentiWS as a better alternative was chosen for sentiment analysis in this research, despite not providing emotion detection. While SentiWS is considered an ideal German resource for sentiment analysis in various text contexts, having an F1 measure of 60.1% over all method combinations (Ibid.), certain shortcomings still exist. Compared to English lexicon-based resources, which can achieve F1 measures exceeding 70% (lbid.), German resources are limited in size and are subject to significant class imbalances. These limitations often result in poor outcomes and put the analysis's performance at a disadvantage. The final limitation pertains to the analysis of four aspects of organic food. The words associated with each aspect were manually generated. The manual generation of keywords may have failed to consider all relevant terms and concepts. Moreover, certain comments pertaining to our targeted aspect may have been erroneously filtered out due to variances in the wording used in the comments and the provided keywords. Conversely, some comments not addressing our interested aspects may have been selected by mistake because they mentioned one of the given words. A possible solution could be to perform topic modelling using techniques such as Latent Dirichlet Allocation (LDA) or Partitioning Around Medoids (PAM) to cluster the topics of comments related to organic food. This method can help to overcome the limitations associated with manually generated keywords and the potential bias and incomplete results they can produce. By analysing the underlying topics of the comments, this approach can capture a broader range of relevant terms and concepts. Thus, the accuracy and reliability of the results can be improved.
+
+[^8]: The F1 score, also referred to as the F-score or F-measure, is a commonly used metric to evaluate the performance of a binary classification model. It takes into account both precision and recall of the model and calculates a single score representing the harmonic mean of the two. Precision measures the proportion of true positive predictions made by the model, while recall measures the proportion of actual positive instances that the model correctly identified. The F1 score combines these two metrics to provide a single score that ranges from 0 to 1, where 1 indicates the best possible score.
+
+\newpage
+
+# Bibliography

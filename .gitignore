@@ -1,0 +1,7 @@
+.DS_Store
+.Rhistory
+.RData
+tmp/
+
+# Keep the restricted ISSP source file out of the public repository.
+ZA7650_v1-0-0.dta
