@@ -52,14 +52,6 @@ The projects below show how I turn questions about people into structured resear
 
 [**Explore the case study →**](research/reddit-organic-food-research/) · [Portfolio report PDF](research/reddit-organic-food-research/paper/Organic-food-attitudes-on-German-Reddit.pdf) · [Paper source](research/reddit-organic-food-research/analysis/Term-paper.qmd) · [Collection source](research/reddit-organic-food-research/analysis/Data-Collection.qmd) · [Data notes](research/reddit-organic-food-research/data/README.md)
 
-## Personal website
-
-[**Visit my portfolio →**](https://1111jia.github.io/SLuo_Profile/)
-
-My single-page website brings together my background, entrepreneurship, selected work, skills, and contact information. It is hosted with GitHub Pages and uses plain HTML, CSS, and JavaScript. Text and links are maintained in one editable content file; photographs can be added later to the existing placeholders.
-
-[Website content](content.js) · [Editing guide](HOW_TO_EDIT.md)
-
 ## Explore the evidence
 
 Each research folder contains five parts:
