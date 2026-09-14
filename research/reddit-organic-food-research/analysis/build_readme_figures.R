@@ -1,5 +1,6 @@
 # Rebuild the three reader-facing figures embedded in README.md.
-# Run from the repository root: Rscript analysis/build_readme_figures.R
+# Run from research/reddit-organic-food-research:
+# Rscript analysis/build_readme_figures.R
 # To use a local SentiWS file:
 # SENTIWS_PATH=/path/to/sentiws.csv Rscript analysis/build_readme_figures.R
 

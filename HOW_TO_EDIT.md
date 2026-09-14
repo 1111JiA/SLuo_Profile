@@ -1,5 +1,37 @@
 # How to edit your portfolio
 
+## 中文快速指南
+
+日常维护主要分为两处：**个人网站的文字改 `content.js`；GitHub 仓库首页的介绍改 `README.md`。** 照片稍后再上传即可，缺少照片时网站会保留整洁的占位区域。
+
+### 直接在 GitHub 上修改，不用安装软件
+
+1. 打开 [SLuo_Profile 仓库](https://github.com/1111JiA/SLuo_Profile)。
+2. 点击 `content.js`，再点铅笔图标 **Edit this file**。
+3. 修改双引号里面的文字，保留引号、逗号和括号。
+4. 点击 **Commit changes**，填写简短说明并提交到 `main`。
+5. 在 **Actions** 中确认最近一次发布显示绿色勾号，再刷新个人网站。
+
+修改首页介绍时，对 `README.md` 做同样的操作。两个研究项目各自也有 `README.md`，可以在对应研究文件夹里修改；正文中的图片和 PDF 链接请一并保留。
+
+### 上传或替换照片
+
+进入仓库的 `assets` 文件夹，选择 **Add file → Upload files**，上传照片并提交。使用下方表格中的文件名，例如 `portrait.jpg`；如果文件名不同，在 `content.js` 第 10 节修改对应的 `src`。两张研究图已经放好，个人照片仍是占位。
+
+### 邮箱、LinkedIn 和简历
+
+在 `content.js` 第 01 节的 `links` 中修改。邮箱和 LinkedIn 已填写；点击邮箱会打开访问者设备上设置的邮件应用，LinkedIn 会打开个人主页。简历上传到 `assets/resume.pdf` 后，将 `resume: ""` 改成 `resume: "assets/resume.pdf"`，即可启用所有简历按钮。
+
+### 简历里可用的链接
+
+网站发布成功后，简历页眉可以链接到 [个人网站](https://1111jia.github.io/SLuo_Profile/)，项目介绍可以链接到 [GitHub 项目总览](https://github.com/1111JiA/SLuo_Profile)、[跨国环保行为研究](https://github.com/1111JiA/SLuo_Profile/tree/main/research/cross-national-environmental-behaviour) 或 [Reddit 研究](https://github.com/1111JiA/SLuo_Profile/tree/main/research/reddit-organic-food-research)。对外发送前，先打开链接确认能够访问。
+
+如果网页没有更新，先查看 **Actions** 中最新发布是否成功，再按 **Command + Shift + R** 强制刷新。只修改电脑上的文件不会更新 GitHub；需要把修改提交到远端仓库，或直接在 GitHub 网页上编辑。
+
+---
+
+## Detailed editing reference
+
 Your website is a single page. It uses plain HTML, CSS, and JavaScript, with no installation or build step.
 
 ## Open the website
@@ -50,13 +82,13 @@ At the top of `content.js`, find:
 
 ```js
 links: {
-  email: "",
-  linkedin: "",
+  email: "luoshengjia01@gmail.com",
+  linkedin: "https://www.linkedin.com/in/luoshengjia/",
   resume: ""
 },
 ```
 
-Put your email address between the empty quotes after `email`. Put your full LinkedIn profile URL, starting with `https://`, between the quotes after `linkedin`. These links stay disabled until you add real values. Your email becomes a clickable email link automatically.
+Replace the email address after `email` or the full LinkedIn profile URL after `linkedin` when needed. Your email becomes a clickable email link automatically. Clearing either value to `""` disables that link.
 
 ## Add your images
 
@@ -74,13 +106,13 @@ Place your own images in `assets` using these exact filenames:
 | `about-04.jpg` | About photo 4 |
 | `about-05.jpg` | Optional About photo 5 |
 
-The page intentionally starts with neutral placeholders. Missing or unreadable images keep those placeholders; broken-image icons are hidden. Adding a correctly named file replaces its placeholder on the next refresh. No stock or generated personal photographs are included.
+The two research charts are included. Personal-photo spaces use neutral placeholders. Missing or unreadable images keep those placeholders; broken-image icons are hidden. Adding a correctly named file replaces its placeholder on the next refresh. No stock or generated personal photographs are included.
 
 You can also change an image's `src` path in section 10. Filenames and extensions must match exactly, including capital letters. Renaming a PNG to `.jpg` does not convert it; keep its real extension and update the path if needed.
 
 Update each image's `alt` text to describe the photograph or chart you actually add. This text helps visitors who use screen readers. It is not a visible caption.
 
-Photos use `fit: "cover"` to fill their frames. Research visuals use `fit: "contain"` to keep the whole chart and key numbers visible until the final images are supplied. To use a tighter crop, change `fit` to `"cover"`; always check that labels, country variation, platform distinctions, and numbers remain readable.
+Photos use `fit: "cover"` to fill their frames. Research visuals use `fit: "contain"` to keep the whole chart and key numbers visible. To use a tighter crop, change `fit` to `"cover"`; always check that chart labels and numbers remain readable.
 
 Change `position: "center"` to `"center top"` to favor the top of an image, or use `"50% 35%"` for a more precise crop. Images keep their original colors.
 
@@ -138,9 +170,9 @@ If a photo is still a placeholder, check its filename, extension, and path. Refr
 
 ## GitHub hosting
 
-This website is hosted from the `SLuo_Profile` GitHub repository. After an edit, commit and push the changed files to the `main` branch. The included GitHub Pages workflow republishes the website automatically.
+This repository includes a GitHub Pages workflow. Once Pages is enabled with **Settings → Pages → Source → GitHub Actions**, changes committed to the `main` branch trigger publication automatically. The latest run in **Actions** shows whether publication succeeded.
 
-The public website address is:
+The website address after successful publication is:
 
 `https://1111jia.github.io/SLuo_Profile/`
 

@@ -1,5 +1,7 @@
 # Organic Food Attitudes in German Reddit Discussions
 
+[← Portfolio overview](../../README.md) · [Personal website](https://1111jia.github.io/SLuo_Profile/)
+
 ### A social-listening study across 2019–2022
 
 This project examines how organic food was discussed in two German-language Reddit communities before and during the COVID-19 period. It combines API-based data collection, German text preprocessing, keyword analysis, and lexicon-based sentiment scoring.
@@ -46,6 +48,26 @@ I defined the collection keywords, gathered and prepared the Reddit data in R, d
 - [Review the data-collection source](analysis/Data-Collection.qmd)
 - [Rebuild the README figures](analysis/build_readme_figures.R)
 - [Review the dataset and interpretation limits](data/README.md)
+
+<details>
+<summary>Rebuild the visualisations and portfolio report</summary>
+
+From the top-level `SLuo_Profile` folder, use R with these packages installed: `dplyr`, `ggplot2`, `lsa`, `patchwork`, `readr`, `scales`, `SnowballC`, `stringr`, `tidyr`, and `tidytext`.
+
+```sh
+cd research/reddit-organic-food-research
+Rscript analysis/build_readme_figures.R
+```
+
+The script reads the included corpus and downloads the SentiWS resource linked in the [data notes](data/README.md). Set `SENTIWS_PATH` to a local copy if needed. It rewrites the three figures and their aggregate CSVs. To rebuild the portfolio PDF from those outputs, use Python with `reportlab` installed:
+
+```sh
+python3 analysis/build_portfolio_report.py
+```
+
+The PDF is a portfolio summary. The original term paper remains in `analysis/Term-paper.qmd`; its referenced bibliography file and framework image were not supplied, so that source is not a self-contained full-paper export. The original collection script is retained as a historical record; the external API may require changes or renewed access before it can run today.
+
+</details>
 
 ## Limitations
 

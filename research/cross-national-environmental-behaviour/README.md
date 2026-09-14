@@ -1,5 +1,7 @@
 # Gender Differences in Pro-Environmental Behaviour
 
+[← Portfolio overview](../../README.md) · [Personal website](https://1111jia.github.io/SLuo_Profile/)
+
 ### Evidence from a cross-national analysis
 
 This study examines whether women and men participate differently in private and public pro-environmental behaviour, and whether national gender inequality changes those patterns. It combines individual survey responses from the ISSP Environment IV module with the UNDP Gender Inequality Index.
@@ -49,6 +51,20 @@ I developed the research design, prepared and combined the individual- and count
 - [Review the original analysis source](analysis/Gender_PEB.Rmd)
 - [Rebuild the README figures](analysis/build_readme_figures.R)
 - [Review data sources, measures, and access conditions](data/README.md)
+
+<details>
+<summary>Rebuild the visualisations</summary>
+
+From the top-level `SLuo_Profile` folder, use R with these packages installed: `dplyr`, `ggplot2`, `ggrepel`, `patchwork`, `readr`, `scales`, and `tidyr`.
+
+```sh
+cd research/cross-national-environmental-behaviour
+Rscript analysis/build_readme_figures.R
+```
+
+This recreates the three PNG figures from the included aggregate CSVs. It does not rerun the thesis models: the selected model estimates are transcribed from the thesis. Recreating the country aggregates also requires the ISSP microdata, the GII workbook, and the packages used in `analysis/prepare_public_data.R`. See the [data notes](data/README.md).
+
+</details>
 
 ## Limitations
 

@@ -1,5 +1,5 @@
 # Prepare the compact, non-identifying summaries used by the README figures.
-# Run from the repository root:
+# Run from research/cross-national-environmental-behaviour:
 # Rscript analysis/prepare_public_data.R /path/to/ZA7650_v1-0-0.dta /path/to/Gender\ Inequality\ Index.xlsx
 
 suppressPackageStartupMessages({

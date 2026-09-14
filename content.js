@@ -228,7 +228,7 @@ window.PORTFOLIO_CONTENT = {
       placeholder: "Cross-national research", fit: "contain", position: "center"
     },
     socialListening: {
-      src: "assets/social-listening.png", alt: "Social listening overview: 1,827 German-language Reddit comments on organic food; 50 YouTube videos and 49 caption sets on zero waste",
+      src: "assets/social-listening.png", alt: "German Reddit organic-food research: negative sentiment share and mean SentiWS score from 2019 to 2022",
       placeholder: "Social Listening", fit: "contain", position: "center"
     },
     about01: {

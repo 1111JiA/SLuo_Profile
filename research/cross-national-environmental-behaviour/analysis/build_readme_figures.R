@@ -1,5 +1,6 @@
 # Rebuild the three reader-facing figures embedded in README.md.
-# Run from the repository root: Rscript analysis/build_readme_figures.R
+# Run from research/cross-national-environmental-behaviour:
+# Rscript analysis/build_readme_figures.R
 
 suppressPackageStartupMessages({
   library(dplyr)
