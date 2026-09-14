@@ -13,7 +13,7 @@ This project combines two sources:
 
 ## Why the ISSP microdata are not included
 
-`ZA7650_v1-0-0.dta` is intentionally not redistributed here. Access to GESIS files is governed by the access category and terms attached to the study and version. Download access alone does not establish permission to republish the complete file. Obtain the data from the official source and confirm the applicable terms before placing it in a public repository.
+`ZA7650_v1-0-0.dta` is intentionally not redistributed here. Section 3 of the [GESIS usage regulations](https://www.gesis.org/fileadmin/admin/Dateikatalog/pdf/sonstiges/20230630_datenservices_usage_regulations.pdf) permits disclosure to third parties only when a licence allows it or GESIS provides separate written permission. No such permission is included with the files supplied for this portfolio. Obtain the matching version through the [official study record](https://search.gesis.org/research_data/ZA7650?doi=10.4232/1.13921) and follow its applicable access terms. The included country summaries present aggregated results.
 
 To reproduce the full analysis, download the matching ZA7650 Version 1.0.0 file, place it beside `analysis/Gender_PEB.Rmd`, and retain the original filename `ZA7650_v1-0-0.dta`. Copy the included `source/Gender Inequality Index.xlsx` beside the Rmd as well, and run with the `analysis/` folder as the working directory. Install the R packages listed in the original source first. The source is preserved as supplied; local package versions may affect rendering.
 
