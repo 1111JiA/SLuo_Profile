@@ -1,16 +1,18 @@
-# Shengjia Luo · Portfolio & Research
+# Shengjia Luo
 
-**Bridging People, Data, and Real-World Decisions.**
+**M.Sc. Econometrics Student | TU Dortmund University**
 
-Social science background × entrepreneurship. With an interest in what people want, why markets move, and where businesses can improve.
-
-[Personal website](https://1111jia.github.io/SLuo_Profile/) · [Research projects](#selected-research) · [LinkedIn](https://www.linkedin.com/in/luoshengjia/) · [Email](mailto:luoshengjia01@gmail.com)
+[Personal website](https://1111jia.github.io/SLuo_Profile/) · [Research](#selected-research) · [LinkedIn](https://www.linkedin.com/in/luoshengjia/) · [Email](mailto:luoshengjia01@gmail.com)
 
 ## About me
 
-My background combines a B.A. in Sociology with a minor in Statistics at LMU Munich, founding the pet-lifestyle brand FERO CASA, and current graduate studies in Survey Statistics and Data Analysis at the University of Bamberg.
+I am currently pursuing an M.Sc. in Econometrics at TU Dortmund University.
 
-The projects below show how I turn questions about people into structured research: collecting and preparing data, selecting methods, visualising findings, and explaining what the evidence can support.
+I completed my bachelor's degree in Sociology with a minor in Statistics at LMU Munich, where I developed a strong interest in quantitative research and statistical modelling. My academic work included cross-national survey analysis, principal component analysis and multilevel regression.
+
+I gained practical experience in financial operations at a furniture trading company and founded FERO CASA, a pet furniture brand. These experiences gave me exposure to commercial decision-making, from analysing receivables and product margins to evaluating suppliers, pricing and customer acquisition strategies.
+
+I am particularly interested in applying econometric and statistical methods to economic and business questions.
 
 ## Selected research
 

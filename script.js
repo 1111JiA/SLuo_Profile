@@ -101,7 +101,7 @@
       li.append(link(item.label, item.target, { className: "nav-link", arrow: false }));
       list.append(li);
     });
-    nav.append(list, link(content.navigation.resumeLabel, content.links.resume, { className: "resume-button", arrow: false, external: true }));
+    nav.append(list, link(content.navigation.resumeLabel, content.links.resume, { className: "resume-button", arrow: false, external: true, unavailable: content.interface.missingResume }));
     const toggle = element("button", "menu-toggle", content.interface.menuOpen);
     toggle.type = "button";
     toggle.setAttribute("aria-controls", nav.id);
@@ -137,23 +137,21 @@
     return head;
   }
 
-  function hero() {
-    const section = element("section", "hero container");
-    section.id = "top";
-    section.setAttribute("aria-labelledby", "hero-heading");
-    section.tabIndex = -1;
+  function home() {
+    const node = element("section", "hero container");
+    node.id = "top";
+    node.tabIndex = -1;
+    node.setAttribute("aria-labelledby", "home-heading");
     const copy = element("div", "hero-copy");
-    const heading = element("h1", "hero-heading");
-    heading.id = "hero-heading";
-    content.hero.headlineLines.forEach(line => heading.append(element("span", "headline-line", line), " "));
-    heading.append(element("em", "headline-accent", content.hero.headlineAccent));
-    const introduction = element("div", "hero-introduction");
-    introduction.append(element("p", "hero-background", content.hero.background), element("p", "hero-description", content.hero.description));
-    const actions = element("div", "hero-actions");
-    actions.append(link(content.hero.contactLabel, content.hero.contactTarget), link(content.hero.resumeLabel, content.links.resume, { download: true }));
-    copy.append(element("p", "eyebrow", content.hero.label), heading, introduction, actions);
-    section.append(copy, photo("portrait", "portrait", true));
-    return section;
+    const title = element("h1", "hero-heading", content.home.name);
+    title.id = "home-heading";
+    const about = element("div", "home-about");
+    about.append(element("h2", "about-heading", content.home.aboutHeading));
+    content.home.paragraphs.forEach(text => about.append(element("p", "about-paragraph", text)));
+    copy.append(element("p", "eyebrow", content.home.label), title,
+      element("p", "professional-identity", content.home.identity), about);
+    node.append(copy, photo("portrait", "portrait", true));
+    return node;
   }
 
   function section(id, data, className = "") {
@@ -171,98 +169,73 @@
     return { node, inner, intro };
   }
 
-  function experience() {
-    const { node, inner } = section("experience", content.experience);
-    const entries = element("ol", "experience-list");
-    content.experience.entries.forEach(item => {
+  function timeline(items) {
+    const list = element("ol", "experience-list");
+    items.forEach(item => {
       const entry = element("li", "experience-entry");
       const details = element("div", "experience-details");
-      details.append(
-        element("p", "experience-category", item.category),
+      details.append(element("p", "experience-category", item.category),
         element("h3", "experience-title", item.title),
-        element("p", "experience-institution", item.institution),
-        element("p", "experience-description", item.description)
-      );
+        element("p", "experience-institution", item.institution));
+      if (item.grade) details.append(element("p", "entry-grade", item.grade));
+      if (item.bullets?.length) {
+        const bullets = element("ul", "entry-bullets");
+        item.bullets.forEach(text => bullets.append(element("li", "", text)));
+        details.append(bullets);
+      }
+      if (item.research?.length) {
+        const research = element("div", "degree-research");
+        research.append(element("h4", "eyebrow", item.researchHeading));
+        const links = element("ul", "research-links");
+        item.research.forEach(project => {
+          const row = element("li");
+          row.append(link(project.title, project.link, { className: "research-link", external: true }),
+            element("p", "research-description", project.description));
+          links.append(row);
+        });
+        research.append(links);
+        details.append(research);
+      }
       entry.append(element("p", "experience-date", item.date), details);
-      entries.append(entry);
+      list.append(entry);
     });
-    inner.append(entries);
+    return list;
+  }
+
+  function experience() {
+    const { node, inner } = section("experience", content.experience);
+    inner.append(timeline(content.experience.entries));
     return node;
   }
 
-  function work() {
-    const { node, inner } = section("work", content.work);
-    const grid = element("div", "work-grid");
-    content.work.projects.forEach(item => {
-      const card = element("article", "project-card");
-      const body = element("div", "project-body");
-      body.append(element("p", "eyebrow project-category", item.category), element("h3", "project-title", item.title));
-      if (item.keyLine) body.append(element("p", "project-keyline", item.keyLine));
-      body.append(element("p", "project-description", item.description), element("p", "project-methods", item.methods));
-      if (item.linkLabel) {
-        body.append(link(item.linkLabel, item.link, {
-          className: "text-link project-link",
-          external: true
-        }));
-      }
-      card.append(photo(item.image, "project-image"), body);
-      grid.append(card);
+  function education() {
+    const { node, inner } = section("education", content.education);
+    inner.append(timeline(content.education.entries));
+    const skills = element("div", "technical-skills");
+    skills.append(element("h3", "subsection-heading", content.skills.heading));
+    const list = element("ul", "skills-grid");
+    content.skills.entries.forEach(skill => {
+      const item = element("li", "skill-item");
+      item.append(element("h4", "skill-name", skill.name), element("p", "skill-level", skill.level));
+      if (skill.detail) item.append(element("p", "skill-detail", skill.detail));
+      list.append(item);
     });
-    inner.append(grid);
-    return node;
-  }
-
-  function skills() {
-    const { node, inner } = section("skills", content.skills);
-    const grid = element("div", "skills-grid");
-    content.skills.groups.forEach(group => {
-      const column = element("div", "skill-group");
-      const list = element("ul", "skill-list");
-      group.items.forEach(item => list.append(element("li", "", item)));
-      column.append(element("h3", "eyebrow skill-heading", group.heading), list);
-      grid.append(column);
+    skills.append(list);
+    const languages = element("div", "language-section");
+    languages.append(element("h3", "subsection-heading", content.skills.languagesHeading));
+    const languageList = element("ul", "language-list");
+    content.skills.languages.forEach(language => {
+      const item = element("li");
+      item.append(element("h4", "skill-name", language.name), element("p", "skill-level", language.level));
+      languageList.append(item);
     });
-    inner.append(grid);
-    return node;
-  }
-
-  function credentials() {
-    const { node, inner } = section("credentials", content.credentials);
-    const grid = element("ul", "credentials-grid");
-    content.credentials.entries.forEach(item => {
-      // Unknown or mistyped status values must never imply completion.
-      const status = String(item.status || "").trim().toUpperCase();
-      const completed = status === "COMPLETED";
-      const row = element("li", "credential");
-      const entry = link("", completed ? item.url : "", {
-        className: "credential-link", arrow: false, external: true,
-        unavailable: content.interface.missingCertificate
-      });
-      const text = element("div", "credential-text");
-      const provider = element("div", "credential-provider-row");
-      provider.append(element("span", "credential-provider", item.provider));
-      if (!completed) {
-        provider.append(element("span", "credential-status", status === "IN PREPARATION"
-          ? content.interface.credentialStatuses.inPreparation : content.interface.credentialStatuses.planned));
-      }
-      text.append(provider, element("h3", "credential-name", item.name));
-      entry.append(text, arrow(true));
-      // Preserve the full name for screen readers, including disabled links.
-      entry.setAttribute("aria-label", `${item.name}${!completed ? ` — ${status === "IN PREPARATION" ? content.interface.credentialStatuses.inPreparation : content.interface.credentialStatuses.planned}` : ""} — ${entry.hasAttribute("href") ? content.interface.newTab : content.interface.missingCertificate}`);
-      row.append(entry);
-      grid.append(row);
-    });
-    inner.append(grid);
-    return node;
-  }
-
-  function about() {
-    const { node, inner, intro } = section("about", content.about);
-    intro.append(element("p", "about-description", content.about.description));
-    const gallery = element("div", "about-gallery");
-    gallery.dataset.count = content.about.photos.length;
-    content.about.photos.forEach(key => gallery.append(photo(key, "about-photo")));
-    inner.append(gallery);
+    languages.append(languageList);
+    const interests = element("div", "interests");
+    interests.append(element("h3", "subsection-heading", content.skills.interestsHeading));
+    const interestList = element("ul", "interest-list");
+    content.skills.interests.forEach(text => interestList.append(element("li", "", text)));
+    interests.append(interestList);
+    inner.append(skills, languages, interests);
     return node;
   }
 
@@ -272,9 +245,10 @@
     const email = content.links.email.trim();
     const emailUrl = email ? (email.startsWith("mailto:") ? email : `mailto:${email}`) : "";
     links.append(
-      link(content.contact.emailLabel, emailUrl, { unavailable: content.interface.missingEmail }),
+      link(content.contact.resumeLabel, content.links.resume, { external: true, unavailable: content.interface.missingResume }),
+      link(content.contact.githubLabel, content.links.github, { external: true }),
       link(content.contact.linkedinLabel, content.links.linkedin, { unavailable: content.interface.missingLinkedin, external: true }),
-      link(content.contact.resumeLabel, content.links.resume, { external: true })
+      link(content.contact.emailLabel, emailUrl, { unavailable: content.interface.missingEmail })
     );
     // Contact CTAs use the approved right arrow, even when opening a new tab.
     links.querySelectorAll(".link-arrow").forEach(item => { item.textContent = content.interface.arrow; });
@@ -291,6 +265,6 @@
   const main = element("main");
   main.id = "main";
   main.tabIndex = -1;
-  main.append(hero(), experience(), work(), skills(), credentials(), about(), contact());
+  main.append(home(), experience(), education(), contact());
   root.append(skip, header(), main);
 })();
