@@ -55,10 +55,8 @@ window.PORTFOLIO_CONTENT = {
     "identity": "M.Sc. Econometrics Student | TU Dortmund University",
     "aboutHeading": "About Me",
     "paragraphs": [
-      "I am currently pursuing an M.Sc. in Econometrics at TU Dortmund University.",
-      "I completed my bachelor's degree in Sociology with a minor in Statistics at LMU Munich, where I developed a strong interest in quantitative research and statistical modelling. My academic work included cross-national survey analysis, principal component analysis and multilevel regression.",
-      "I gained practical experience in financial operations at a furniture trading company and founded FERO CASA, a pet furniture brand. These experiences gave me exposure to commercial decision-making, from analysing receivables and product margins to evaluating suppliers, pricing and customer acquisition strategies.",
-      "I am particularly interested in applying econometric and statistical methods to economic and business questions."
+      "Hi! I'm currently pursuing an M.Sc. in Econometrics at TU Dortmund University, with a B.A. in Sociology and Statistics from LMU Munich.",
+      "My experience ranges from cross-national statistical research to financial operations in the furniture industry. I also founded FERO CASA, a small pet furniture brand, which gave me firsthand experience in developing products, working with suppliers and reaching customers."
     ]
   },
 
