@@ -26,9 +26,7 @@ window.PORTFOLIO_CONTENT = {
   // 03. NAVIGATION — keep targets unchanged when editing labels.
   "navigation": {
     "brand": "SHENGJIA LUO",
-
-  // 04. HOME — approved About Me, one quoted paragraph per line.
-  "home": "#top",
+    "home": "#top",
     "items": [
       {
         "label": "HOME",
@@ -49,13 +47,14 @@ window.PORTFOLIO_CONTENT = {
     ],
     "resumeLabel": "CV"
   },
+  // 04. HOME — approved About Me, one quoted paragraph per line.
   "home": {
     "label": "01 / HOME",
     "name": "Shengjia Luo",
     "identity": "M.Sc. Econometrics Student | TU Dortmund University",
     "aboutHeading": "About Me",
     "paragraphs": [
-      "Hi! I'm currently pursuing an M.Sc. in Econometrics at TU Dortmund University, with a B.A. in Sociology and Statistics from LMU Munich.",
+      "I am currently pursuing an M.Sc. in Econometrics at TU Dortmund University, with a B.A. in Sociology and Statistics from LMU Munich.",
       "My experience ranges from cross-national statistical research to financial operations in the furniture industry. I also founded FERO CASA, a small pet furniture brand, which gave me firsthand experience in developing products, working with suppliers and reaching customers."
     ]
   },
